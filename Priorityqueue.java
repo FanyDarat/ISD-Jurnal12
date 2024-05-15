@@ -11,42 +11,32 @@ public class Priorityqueue {
         qwerty.add(new Data(deadline, task));
     }
 
-    public Data getNextTask() {
-        return qwerty.peek();
-    }
-
-    public Data removeNextTask() {
-        return qwerty.poll();
-    }
-
-    public boolean hasTasks() {
-        return !qwerty.isEmpty();
-    }
-
-    public void printTasks() {
-        while (hasTasks()) {
-            Data t = removeNextTask();
-            System.out.println("Prioritas: " + t.getPrirotas() + ", Tugas: " + t.getTugas());
+    public void printTask() {
+        if (qwerty.isEmpty()) {
+            System.out.println("Tidak Ada Tugas");
+        } else {
+            System.out.println("Daftar Tugas:");
+            for (Data data : qwerty) {
+                System.out.printf(" - Prioritas: %d, Tugas: %s\n", data.priorotas, data.tugas);
+            }
         }
     }
 
-    public void printAndRemoveClosestTask() {
-        if (!hasTasks()) {
-            System.out.println("Tidak Ada Tugas Lagi.");
+    public void removeTask() {
+        if (qwerty.isEmpty()) {
+            System.out.println("Tugas tidak ada");
             return;
         }
 
-        Data closestTask = getNextTask();
-        System.out.println("Tugas Terdekat Yang Harus Diselesaikan: " + closestTask.getTugas());
-        removeNextTask();
+        Data removedData = qwerty.poll();
 
-        if (hasTasks()) {
-            Data nextTask = getNextTask();
-            System.out.println("Ketika task " + closestTask.getTugas() + " dihapus:");
-            System.out.println(closestTask.getTugas() + " selesai dilaksanakan, berikutnya " + nextTask.getTugas());
-        } else {
-            System.out.println("Ketika task " + closestTask.getTugas() + " Dihapus:");
-            System.out.println(closestTask.getTugas() + " Sudah Selesai Dikerjakan, Tidak Ada Tugas Lainnya.");
+        System.out.printf("Tugas %s sudah selesai. ", removedData.tugas);
+
+        if (!qwerty.isEmpty()) {
+            System.out.printf("Selanjutnya tugas %s.\n", qwerty.peek().tugas);
+            return;
         }
+
+        System.out.println("Tidak ada tugas lagi");
     }
 }
